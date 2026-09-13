@@ -1,14 +1,25 @@
 <header class="site-header">
-    <link rel="stylesheet" href="header.css">
+
+    <!-- Header CSS -->
+    <link rel="stylesheet" href="/digital-agency/components/header.css">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
     <nav class="navbar">
 
         <!-- Logo -->
-        <a href="../index.html" class="logo">
-            <img src="../assets/logo/FormHub-Logo.png" alt="Digital Agency Logo">
+        <a href="/digital-agency/index.html" class="logo">
+            <img
+                src="/digital-agency/assets/logo/FormHub-Logo.png"
+                alt="Digital Agency Logo"
+            >
         </a>
 
 
@@ -27,77 +38,99 @@
 
             <ul class="nav-links">
 
+                <!-- Home -->
                 <li>
-                    <a href="/index.html" data-page="home">
+                    <a href="/digital-agency/index.html" data-page="home">
                         Home
                     </a>
                 </li>
 
+
+                <!-- About -->
                 <li>
-                    <a href="/pages/about.html" data-page="about">
+                    <a href="/digital-agency/pages/about.html" data-page="about">
                         About
                     </a>
                 </li>
 
+
                 <!-- Services Dropdown -->
                 <li class="services-dropdown">
 
-                    <a href="/pages/services.html" class="services-main-link" data-page="services">
+                    <a
+                        href="/digital-agency/pages/services.html"
+                        class="services-main-link"
+                        data-page="services"
+                    >
                         Services
                         <span class="dropdown-arrow">▼</span>
                     </a>
 
+
                     <div class="services-menu">
 
-                        <a href="/pages/services.html">
+                        <!-- All Services -->
+                        <a href="/digital-agency/pages/services.html">
                             <span class="service-menu-icon">✦</span>
+
                             <span>
                                 <strong>All Services</strong>
                                 <small>Explore everything we offer</small>
                             </span>
                         </a>
 
-                        <a href="/pages/services/website-design.html">
+
+                        <!-- Website Design -->
+                        <a href="/digital-agency/services/website-design.html">
                             <span class="service-menu-icon">◈</span>
+
                             <span>
                                 <strong>Website Design</strong>
                                 <small>Modern & responsive websites</small>
                             </span>
                         </a>
 
-                        <a href="/pages/services/video-editing.html">
+
+                        <!-- Video Editing -->
+                        <a href="/digital-agency/services/video-editing.html">
                             <span class="service-menu-icon">▶</span>
+
                             <span>
                                 <strong>Video Editing</strong>
                                 <small>Professional video content</small>
                             </span>
                         </a>
 
-                        <a href="/pages/services/graphic-design.html">
+
+                        <!-- Graphic Design -->
+                        <a href="/digital-agency/services/graphic-design.html">
                             <span class="service-menu-icon">◎</span>
+
                             <span>
                                 <strong>Graphic Design</strong>
                                 <small>Creative visual designs</small>
                             </span>
                         </a>
 
-                        <a href="/pages/services/seo-growth.html">
 
+                        <!-- SEO & Growth -->
+                        <a href="/digital-agency/services/seo-growth.html">
                             <span class="service-menu-icon">↗</span>
 
                             <span>
                                 <strong>SEO & Growth</strong>
                                 <small>Improve visibility and grow your business</small>
                             </span>
-
                         </a>
 
                     </div>
 
                 </li>
 
+
+                <!-- Contact -->
                 <li>
-                    <a href="/pages/contact.html" data-page="contact">
+                    <a href="/digital-agency/pages/contact.html" data-page="contact">
                         Contact
                     </a>
                 </li>
@@ -106,7 +139,7 @@
 
 
             <!-- CTA -->
-            <a href="/pages/contact.html" class="nav-btn">
+            <a href="/digital-agency/pages/contact.html" class="nav-btn">
                 Let's Talk
                 <span>↗</span>
             </a>
@@ -116,7 +149,13 @@
     </nav>
 
 </header>
+
+
 <script>
+
+    /* =========================================
+       ACTIVE NAVIGATION
+    ========================================= */
 
     const currentPage =
         window.location.pathname
@@ -144,38 +183,54 @@
 
     });
 
+
     /* =========================================
-   HEADER SCROLL HIDE / SHOW
-========================================= */
+       HEADER SCROLL HIDE / SHOW
+    ========================================= */
 
     let lastScrollY = window.scrollY;
+
 
     window.addEventListener("scroll", function () {
 
         const currentScrollY = window.scrollY;
 
+
         // Top of page → always show header
         if (currentScrollY <= 20) {
-            document.querySelector(".site-header")
+
+            document
+                .querySelector(".site-header")
                 ?.classList.remove("header-hidden");
 
             lastScrollY = currentScrollY;
+
             return;
         }
 
+
         // Scrolling down → hide
         if (currentScrollY > lastScrollY) {
-            document.querySelector(".site-header")
+
+            document
+                .querySelector(".site-header")
                 ?.classList.add("header-hidden");
+
         }
+
 
         // Scrolling up → show
         else if (currentScrollY < lastScrollY) {
-            document.querySelector(".site-header")
+
+            document
+                .querySelector(".site-header")
                 ?.classList.remove("header-hidden");
+
         }
 
+
         lastScrollY = currentScrollY;
+
     });
 
 </script>
