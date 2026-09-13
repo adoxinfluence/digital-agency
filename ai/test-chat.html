@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="test-chat.css">
+
+    <title>FormHub AI</title>
+</head>
+
+<body>
+
+    <main class="ai-page">
+
+        <section class="chat-container" aria-label="FormHub AI Chat">
+
+            <!-- Chat Header -->
+            <header class="chat-header">
+
+                <div class="ai-icon" aria-hidden="true">
+                    ✦
+                </div>
+
+                <div class="chat-header-content">
+                    <h1>FormHub AI</h1>
+
+                    <p>
+                        Your AI assistant for FormHub
+                    </p>
+                </div>
+
+                <div class="ai-status">
+                    <span></span>
+                    <span>Online</span>
+                </div>
+
+            </header>
+
+
+            <!-- Chat Intro -->
+            <div class="chat-intro">
+
+                <span class="intro-label">
+                    FORMHUB AI ASSISTANT
+                </span>
+
+                <h2>
+                    How can we help you?
+                </h2>
+
+                <p>
+                    Ask us about our services, pricing,
+                    project process, websites, design,
+                    SEO and more.
+                </p>
+
+            </div>
+
+
+            <!-- Chat Messages -->
+            <div
+                class="chat-messages"
+                id="chatMessages"
+                aria-live="polite"
+            >
+
+                <div class="message ai-message">
+
+                    <div class="message-label">
+                        FormHub AI
+                    </div>
+
+                    <div class="message-text">
+                        Hi! 👋 I'm FormHub AI.
+                        <br><br>
+                        I can help you learn more about
+                        FormHub, our services, pricing,
+                        project process and more.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Chat Suggestions -->
+            <div class="chat-suggestions">
+
+                <button type="button">
+                    What services do you offer?
+                </button>
+
+                <button type="button">
+                    How much does a website cost?
+                </button>
+
+                <button type="button">
+                    How can I contact FormHub?
+                </button>
+
+            </div>
+
+
+            <!-- Chat Input -->
+            <div class="chat-input-area">
+
+                <div class="input-wrapper">
+
+                    <input
+                        type="text"
+                        id="message"
+                        class="chat-input"
+                        placeholder="Ask anything about FormHub..."
+                        autocomplete="off"
+                        aria-label="Message"
+                    >
+
+                    <button
+                        id="sendBtn"
+                        class="send-button"
+                        type="button"
+                        aria-label="Send message"
+                    >
+                        <span>Send</span>
+                        <span aria-hidden="true">↗</span>
+                    </button>
+
+                </div>
+
+                <p class="input-note">
+                    FormHub AI provides information about
+                    FormHub and its services.
+                </p>
+
+            </div>
+            <p id="response" hidden></p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+    const messageInput = document.getElementById("message");
+    const sendBtn = document.getElementById("sendBtn");
+    const chatMessages = document.getElementById("chatMessages");
+
+    function addMessage(text, type) {
+        const message = document.createElement("div");
+
+        message.classList.add(
+            "message",
+            type === "user"
+                ? "user-message"
+                : "ai-message"
+        );
+
+        if (type === "ai") {
+            message.innerHTML = `
+                <div class="message-label">
+                    FormHub AI
+                </div>
+                <div class="message-text">
+                    ${text}
+                </div>
+            `;
+        } else {
+            message.textContent = text;
+        }
+
+        chatMessages.appendChild(message);
+
+        chatMessages.scrollTop =
+            chatMessages.scrollHeight;
+
+        return message;
+    }
+
+
+    async function sendMessage() {
+
+        const message =
+            messageInput.value.trim();
+
+        if (!message) {
+            return;
+        }
+
+
+        // User message
+        addMessage(message, "user");
+
+        // Input clear
+        messageInput.value = "";
+
+        // AI loading message
+        const loadingMessage =
+            addMessage("Thinking...", "ai");
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "http://localhost:3000/api/chat",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            message: message
+                        })
+                    }
+                );
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Server response failed"
+                );
+            }
+
+
+            const data =
+                await response.json();
+
+
+            // Replace Thinking... with actual answer
+            loadingMessage.querySelector(
+                ".message-text"
+            ).textContent = data.reply;
+
+
+        } catch (error) {
+
+            loadingMessage.querySelector(
+                ".message-text"
+            ).textContent =
+                "Sorry, backend se connection nahi ho paya.";
+
+            console.error(error);
+        }
+    }
+
+
+    // Send button
+    sendBtn.addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+    // Enter key
+    messageInput.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+
+        }
+    );
+    const suggestionButtons =
+    document.querySelectorAll(".chat-suggestions button");
+
+suggestionButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        messageInput.value = button.textContent.trim();
+
+        sendMessage();
+
+    });
+
+});
+</script>
+
+</body>
+</html>
